@@ -1,9 +1,65 @@
 <html>
 <head>
-  <title>LOGIN</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Go Login reCAPTCHAv3</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+  <!-- Bulma Version 0.7.4-->
+  <link rel="stylesheet" href="https://unpkg.com/bulma@0.7.4/css/bulma.min.css" />
 </head>
 <body>
-LOGIN
-{{.Error}}
+  <!-- reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js?render={{.Recaptcha.SiteKey}}"></script>
+  <script>
+    var recaptcha = document.getElementsByName('{{.FormName.Recaptcha}}');
+    console.log(recaptcha);
+    if (recaptcha != null) {
+      grecaptcha.ready(function() {
+        grecaptcha.execute('{{.Recaptcha.SiteKey}}', {action: 'homepage'}).then(function(token) {
+          recaptcha[0].value = token
+        }, function (reason) {
+          console.log(reason)
+        });
+      });
+    }
+  </script>
+  <!-- /reCAPTCHA -->
+  <section class="hero is-fullheight">
+    <div class="hero-body is-centered">
+      <div class="box" style="margin: auto;">
+        <h1 class="title">Login</h1>
+        <form method="post">
+          {{if .Error}}
+          <div class="field">
+            <p class="has-text-danger">{{.Error}}</p>
+          </div>
+          {{end}}
+          <div class="field">
+            <div class="control">
+              <input class="input is-large" name="{{.FormName.Email}}" type="email" placeholder="Your Email" autofocus="" required>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input is-large" name="{{.FormName.Password}}" type="password" placeholder="Your Password" required>
+            </div>
+          </div>
+          <div class="field">
+            <label class="checkbox">
+              <input type="checkbox">
+              Remember me
+            </label>
+          </div>
+          <input type="hidden" name="recaptcha_token" value=""/><!-- reCAPTVCHA value -->
+          <button class="button is-block is-info is-large is-fullwidth">Login</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <pre>
+    {{.}}
+  </pre>
 </body>
 </html>
