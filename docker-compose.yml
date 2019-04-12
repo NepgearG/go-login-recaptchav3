@@ -8,5 +8,5 @@ services:
     volumes:
       - .:/go
     environment:
-      - RECAPCHA_SITE_KEY=""
-      - RECAPCHA_SITE_SECRET=""
+      - RECAPCHA_SITE_KEY=
+      - RECAPCHA_SITE_SECRET=
